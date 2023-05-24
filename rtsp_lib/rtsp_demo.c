@@ -1065,7 +1065,7 @@ static int rtsp_handle_TEARDOWN(struct rtsp_client_connection *cc, const rtsp_ms
 }
 
 /*
-rtsp  ´¦Àí rtspÁ¬ÇëÇó
+rtsp  å¤„ç† rtspè¿è¯·æ±‚
 */
 static int rtsp_process_request(struct rtsp_client_connection *cc, const rtsp_msg_s *reqmsg, rtsp_msg_s *resmsg)
 {
@@ -1460,7 +1460,7 @@ int rtsp_do_event (rtsp_demo_handle demo)
 	tv.tv_sec = 0;
 	tv.tv_usec = 0;
 
-    //rtp rtcp µÄ·¢ËÍ Óë½ÓÊÕ¼àÌı
+    //rtp rtcp çš„å‘é€ ä¸æ¥æ”¶ç›‘å¬
 	ret = select(maxfd + 1, &rfds, &wfds, NULL, &tv);
 	if (ret < 0) {
 		err("select failed : %s\n", strerror(errno));
@@ -1476,12 +1476,12 @@ int rtsp_do_event (rtsp_demo_handle demo)
 	}
 
 	cc = TAILQ_FIRST(&d->connections_qhead); //NOTE do not use TAILQ_FOREACH
-	while (cc) {//´æÔÚrtsp_client_connection
+	while (cc) {//å­˜åœ¨rtsp_client_connection
 		struct rtsp_client_connection *cc1 = cc;
-		struct rtsp_session *s = cc1->session;  //´ËÁ¬½ÓµÄrtsp session
-		struct rtp_connection *vrtp = cc1->vrtp;//´ËÁ¬½ÓµÄrtp session ÊÓÆµ
+		struct rtsp_session *s = cc1->session;  //æ­¤è¿æ¥çš„rtsp session
+		struct rtp_connection *vrtp = cc1->vrtp;//æ­¤è¿æ¥çš„rtp session è§†é¢‘
 		struct rtp_connection *artp = cc1->artp;
-		cc = TAILQ_NEXT(cc, demo_entry);//ÕÒÒ»¸örtsp_client_connection
+		cc = TAILQ_NEXT(cc, demo_entry);//æ‰¾ä¸€ä¸ªrtsp_client_connection
 
 		if (FD_ISSET(cc1->sockfd, &rfds)) {
 			do {
@@ -1727,7 +1727,7 @@ int rtsp_sever_tx_video (rtsp_demo_handle demo,rtsp_session_handle session, cons
 
 	switch (s->vcodec_id) {
 	case RTSP_CODEC_ID_VIDEO_H264:
-		if (s->vcodec_data.h264.pps_len == 0 || s->vcodec_data.h264.pps_len == 0) {
+		if (s->vcodec_data.h264.pps_len == 0 || s->vcodec_data.h264.sps_len == 0) {
 			if (rtsp_codec_data_parse_from_frame_h264(frame, len, &s->vcodec_data.h264) < 0) {
 				warn("rtsp_codec_data_parse_from_frame_h264 failed\n");
 			} else {
@@ -1737,7 +1737,7 @@ int rtsp_sever_tx_video (rtsp_demo_handle demo,rtsp_session_handle session, cons
 		}
 		break;
 	case RTSP_CODEC_ID_VIDEO_H265:
-		if (s->vcodec_data.h265.pps_len == 0 || s->vcodec_data.h265.pps_len == 0 || s->vcodec_data.h265.vps_len == 0) {
+		if (s->vcodec_data.h265.pps_len == 0 || s->vcodec_data.h265.sps_len == 0 || s->vcodec_data.h265.vps_len == 0) {
 			if (rtsp_codec_data_parse_from_frame_h265(frame, len, &s->vcodec_data.h265) < 0) {
 				warn("rtsp_codec_data_parse_from_frame_h265 failed\n");
 			} else {
