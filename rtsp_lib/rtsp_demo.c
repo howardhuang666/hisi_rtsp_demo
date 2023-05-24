@@ -1614,7 +1614,7 @@ int rtsp_tx_video (rtsp_session_handle session, const uint8_t *frame, int len, u
 
 	switch (s->vcodec_id) {
 	case RTSP_CODEC_ID_VIDEO_H264:
-		if (s->vcodec_data.h264.pps_len == 0 || s->vcodec_data.h264.pps_len == 0) {
+		if (s->vcodec_data.h264.pps_len == 0 || s->vcodec_data.h264.sps_len == 0) {
 			if (rtsp_codec_data_parse_from_frame_h264(frame, len, &s->vcodec_data.h264) < 0) {
 				warn("rtsp_codec_data_parse_from_frame_h264 failed\n");
 			} else {
@@ -1624,7 +1624,7 @@ int rtsp_tx_video (rtsp_session_handle session, const uint8_t *frame, int len, u
 		}
 		break;
 	case RTSP_CODEC_ID_VIDEO_H265:
-		if (s->vcodec_data.h265.pps_len == 0 || s->vcodec_data.h265.pps_len == 0 || s->vcodec_data.h265.vps_len == 0) {
+		if (s->vcodec_data.h265.pps_len == 0 || s->vcodec_data.h265.sps_len == 0 || s->vcodec_data.h265.vps_len == 0) {
 			if (rtsp_codec_data_parse_from_frame_h265(frame, len, &s->vcodec_data.h265) < 0) {
 				warn("rtsp_codec_data_parse_from_frame_h265 failed\n");
 			} else {
